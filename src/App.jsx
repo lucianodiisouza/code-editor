@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Editor } from "./components";
 
 function App() {
@@ -6,13 +6,21 @@ function App() {
   const [css, setCss] = useState("");
   const [js, setJs] = useState("");
 
-  const srcDoc = `
-  <html>
-    <body>${html}</body>
-    <style>${css}</style>
-    <script>${js}</script>
-  </html>
-  `;
+  const [srcDoc, setSrcDoc] = useState("");
+
+  useEffect(() => {
+    const timeOut = setTimeout(() => {
+      setSrcDoc(`
+      <html>
+        <body>${html}</body>
+        <style>${css}</style>
+        <script>${js}</script>
+      </html>
+      `);
+    }, 250);
+
+    return () => clearTimeout(timeOut);
+  }, [html, js, css]);
 
   return (
     <>
